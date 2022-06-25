@@ -1,20 +1,18 @@
 #include "maths.h"
 
-float invsqrt(float x) {
-	float t = 1.5f;
-	float z = .5f*x;
-	float y = x;
-	long i = *(long*)&y;
-	i = 0x5f3759df - (i >> 1);
-	y = *(float*)&i;
-	y *= t - z*y*y;//1
-	//y *= t - z*y*y;//2
-	return y;
+static float isqrt(float n) {
+	union {
+		int i;
+		float f;
+	} u = {.f = n};
+
+	u.i = 0x5f3759df - (u.i >> 1);
+	u.f *= 0.5f*(3 - n*u.f*u.f);
+
+	return u.f;
 }
 
-float sqrt(float x) {
-	return 1/invsqrt(x);
-}
+#define sqrt(x) (1.0f/isqrt(x))
 
 float mod(float x, float y) {
 	int i = x/y;
