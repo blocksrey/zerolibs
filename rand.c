@@ -1,6 +1,6 @@
 #include "rand.h"
 
-unsigned long s1, s2, s3, b;
+static unsigned long s1, s2, s3, b;
 
 float rand() {
 	/* Generates numbers between 0 and 1. */

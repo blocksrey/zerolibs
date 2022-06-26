@@ -3,7 +3,7 @@
 
 mat3 mat3new(float xx, float yx, float zx, float xy, float yy, float zy, float xz, float yz, float zz) {
     mat3 m;
-    
+
     m.xx = xx;
     m.yx = yx;
     m.zx = zx;
