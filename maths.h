@@ -1,5 +1,5 @@
-#ifndef MATHS_H
-#define MATHS_H
+#ifndef mathsh
+#define mathsh
 
 #include "prim.h"
 
@@ -16,37 +16,37 @@
 
 #define MIN(a, b) (a < b ? a : b)
 #define MAX(a, b) (a > b ? a : b)
-#define CLAMP(n, l, h) MAX(l, MIN(n, h))
+#define CLMP(n, l, h) MAX(l, MIN(n, h))
 #define ABS(n) (n < 0 ? n : -n)
 #define POW(b, e) EXP(LOG(b)*e)
 #define LOG(n) (0.6931472f*LOG2(n))
-#define FLOOR(n) (f32)(i32)(n)
-#define ROUND(n) FLOOR(n + 0.5f)
-#define NFIB(n) ROUND(0.4472136f*(POW(PHI, n) - POW(-IPH, n)))
+#define FLRP(n) (i32)(n)
+#define RNDP(n) FLRP(n + 0.5f)
+#define NFIB(n) RNDP(0.4472136f*(POW(PHI, n) - POW(-IPH, n)))
 #define STIR(n) SQRT(2*PI*n)*POW(n/E, n)
+#define FMODP(n, d) (n - (i32)(n/d)*d)
 
-static f32 EXP(f32 x) {
-	union {
-		f32 f;
-		i32 i;
-	} u;
+typedef union {
+	f32 f;
+	i32 i;
+} f_u;
 
-	// exp(x) = 2^i*2^f; i = floor(log2(e)*x), 0 <= f <= 1
-	f32 t = x*1.4426950f;
-	i32 l = FLOOR(t);
-	f32 f = t - l;
+static f32 EXP(f32 n) {
+	f_u u;
+
+	// exp(n) = 2^i*2^f; i = FLR(log2(e)*x), 0 <= f <= 1
+	n *= 1.4426950f;
+	i32 i = FLRP(n);
+	f32 f = n - (f32)i;
 
 	u.f = (0.3371894f*f + 0.6576363f)*f + 1.0017248f; // compute 2^f
-	u.i += l << 23; // scale by 2^i
+	u.i += i << 23; // scale by 2^i
 
 	return u.f;
 }
 
 static f32 LOG2(f32 x) {
-	union {
-		f32 f;
-		i32 i;
-	} a, b;
+	f_u a, b;
 
 	a.f = x;
 
@@ -57,10 +57,7 @@ static f32 LOG2(f32 x) {
 }
 
 static f32 SQRT(f32 n) {
-	union {
-		f32 f;
-		i32 i;
-	} u;
+	f_u u;
 
 	u.f = n;
 	u.i = 0x1fc00000 + (u.i >> 1);
@@ -71,10 +68,7 @@ static f32 SQRT(f32 n) {
 }
 
 static f32 ISQRT(f32 n) {
-	union {
-		f32 f;
-		i32 i;
-	} u;
+	f_u u;
 
 	u.f = n;
 	u.i = 0x5f3759df - (u.i >> 1);
@@ -82,11 +76,6 @@ static f32 ISQRT(f32 n) {
 	u.f *= 0.5f*(3 - n*u.f*u.f); // Newton #1
 
 	return u.f;
-}
-
-static f32 MOD(f32 x, f32 y) {
-	i32 i = x/y;
-	return x - y*(x < i ? i - 1 : i);
 }
 
 static inline f32 FACT(f32 x) {

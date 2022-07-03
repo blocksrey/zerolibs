@@ -9,17 +9,33 @@
 
 static f32 COSP(f32 t) {
 	t *= IP;
-	i32 f = (i32)(t + 0.5f);
-	f32 n = t - (f32)f;
-	return (1 + f%2*~1)*(1 + (3.6527833f*n*n - 4.9070450f)*n*n);
+	i32 i = RNDP(t);
+	f32 f = t - (f32)i;
+	return (1 + i%2*~1)*(1 + (3.6527833f*f*f - 4.9070450f)*f*f);
 }
 
 static f32 ATAN2(f32 c, f32 s) {
-	f32 o = 0, t;
+	f32 o = 0;
 
-	if (s < 0)        c  = -c, s  = -s, o -= PI;
-	if (c < 0) t = c, c  =  s, s  = -t, o += QT;
-	if (c < s) t = c, c +=  s, s -=  t, o += ET;
+	if (s < 0) {
+		c = -c;
+		s = -s;
+		o -= PI;
+	}
+
+	if (c < 0) {
+		f32 t = c;
+		c = s;
+		s = -t;
+		o += QT;
+	}
+
+	if (c < s) {
+		f32 t = c;
+		c += s;
+		s -= t;
+		o += ET;
+	}
 
 	f32 d = 2/(c*c + s*s);
 	f32 x = d*c*c - 1;

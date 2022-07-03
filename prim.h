@@ -1,5 +1,5 @@
-#ifndef PRIM_H
-#define PRIM_H
+#ifndef primh
+#define primh
 
 #include <stdint.h>
 
