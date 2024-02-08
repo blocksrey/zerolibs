@@ -1,5 +1,5 @@
-#ifndef m3fh
-#define m3fh
+#ifndef m3f_h
+#define m3f_h
 
 #include "v3f.h"
 

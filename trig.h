@@ -1,5 +1,5 @@
-#ifndef TRIG_H
-#define TRIG_H
+#ifndef trig_h
+#define trig_h
 
 #include "maths.h"
 

@@ -1,5 +1,5 @@
-#ifndef RND_H
-#define RND_H
+#ifndef rnd_h
+#define rnd_h
 
 #include "maths.h"
 #include "trig.h"

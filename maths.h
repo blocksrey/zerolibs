@@ -1,5 +1,5 @@
-#ifndef mathsh
-#define mathsh
+#ifndef maths_h
+#define maths_h
 
 #include "prim.h"
 
